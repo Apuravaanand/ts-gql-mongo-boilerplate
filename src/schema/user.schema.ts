@@ -30,12 +30,15 @@ interface QueryHelpers {
 
     const salt = await bcrypt.genSalt(10);
 
-    const hash = await bcrypt.hashSync(this.password, salt);
+    const hash = await bcrypt.hash(this.password, salt);
 
     this.password = hash;
 })
 @index({ email: 1 })
 @queryMethod(findByEmail)
+
+
+// 
 @ObjectType()
 export class User {
     @Field(() => String)
@@ -52,8 +55,8 @@ export class User {
     @prop({ required: true })
     password: string;
 }
-
 export const UserModel = getModelForClass<typeof User, QueryHelpers>(User);
+
 
 @InputType()
 export class CreateUserInput {
